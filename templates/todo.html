@@ -1,0 +1,60 @@
+{% extends "home.html" %}
+
+{% block todo_container %}
+<main class="container">
+
+    <section class="mb-4">
+        <form method="post" action="/todo">
+            <div class="input-group mb-3">
+                <input type="text"
+                       name="item"
+                       class="form-control"
+                       placeholder="Введите новую задачу"
+                       aria-label="Добавить задачу"
+                       required>
+
+                <button class="btn btn-outline-primary"
+                        type="submit">
+                    Add Todo
+                </button>
+            </div>
+        </form>
+    </section>
+
+    {% if todo is defined and todo %}
+        <article class="card mb-3">
+            <div class="card-body">
+                <h4>Todo ID: {{ todo.id }}</h4>
+                <p><strong>Item: {{ todo.item }}</strong></p>
+            </div>
+        </article>
+
+        <a href="/todo" class="btn btn-secondary">
+            Вернуться к списку
+        </a>
+
+    {% else %}
+        <section>
+            <h2 class="text-center mb-4">Todos</h2>
+
+            <div class="card">
+                <ul class="list-group list-group-flush">
+                    {% for task in todos %}
+                        <li class="list-group-item">
+                            {{ loop.index }}.
+                            <a href="/todo/{{ task.id }}">
+                                {{ task.item }}
+                            </a>
+                        </li>
+                    {% else %}
+                        <li class="list-group-item text-muted">
+                            Список задач пока пуст.
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </section>
+    {% endif %}
+
+</main>
+{% endblock %}
